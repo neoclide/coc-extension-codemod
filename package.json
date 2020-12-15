@@ -1,0 +1,12 @@
+{
+  "name": "coc-extension-codemod",
+  "version": "1.0.0",
+  "description": "Fix code of coc.nvim extensions for latest API.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "coc.nvim"
+  ],
+  "author": "chemzqm@gmail.com",
+  "license": "MIT"
+}
