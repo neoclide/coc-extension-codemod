@@ -2,11 +2,30 @@
   "name": "coc-extension-codemod",
   "version": "1.0.0",
   "description": "Fix code of coc.nvim extensions for latest API.",
-  "main": "index.js",
-  "scripts": {},
+  "main": "lib/index.js",
+  "engines": {
+    "coc": ">= 0.0.79"
+  },
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "webpack",
+    "prepare": "webpack"
+  },
   "keywords": [
     "coc.nvim"
   ],
+  "dependencies": {
+    "@types/node": "^10.12.0",
+    "coc.nvim": "^0.0.79-next.5",
+    "glob": "^7.1.6",
+    "ts-loader": "^8.0.1",
+    "vscode-languageserver-protocol": "^3.16.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
   "author": "chemzqm@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
 }
