@@ -4,6 +4,7 @@ import path from 'path'
 import { window, Uri, workspace, ExtensionContext, services, commands, TextEdit, wait } from 'coc.nvim'
 import { CancellationTokenSource, Position, Range } from 'vscode-languageserver-protocol'
 import glob from 'glob'
+import semver from 'semver'
 
 const movedPropreties = [
   'showMessage',
@@ -43,12 +44,43 @@ async function validFile(filepath: string): Promise<boolean> {
       resolve(false)
     })
   })
+}
 
+async function checkModule(moduleName: string, minVersion: string): Promise<boolean> {
+  let pkgfile = path.join(workspace.cwd, 'node_modules', moduleName, 'package.json')
+  if (!fs.existsSync(pkgfile)) {
+    window.showMessage(`Module ${moduleName} not installed`, 'error')
+    return false
+  }
+  try {
+    let json = JSON.parse(fs.readFileSync(pkgfile, 'utf8'))
+    if (!semver.valid(json.version)) {
+      window.showMessage(`Invalid version in ${pkgfile}`, 'error')
+      return false
+    }
+    if (!semver.gte(json.version, minVersion)) {
+      window.showMessage(`Version of ${moduleName} should >= ${minVersion}`, 'error')
+      return false
+    }
+  } catch (e) {
+    window.showMessage(`Error on parse ${pkgfile}: ${e.message}`, 'error')
+    return false
+  }
+  return true
 }
 
 export async function activate(_context: ExtensionContext): Promise<void> {
   let output = window.createOutputChannel('codemod')
   let fixCodes = async (): Promise<void> => {
+    let pkgfile = path.join(workspace.cwd, 'package.json')
+    if (!fs.existsSync(pkgfile)) {
+      window.showMessage('package.json not found in cwd', 'error')
+      return
+    }
+    let checked = await checkModule('coc.nvim', '0.0.80')
+    if (!checked) return
+    checked = await checkModule('typescript', '4.0.0')
+    if (!checked) return
     await workspace.nvim.command('edit output:///codemod')
     output.appendLine(`Note that the fix may not fix all issues, use ':CocList diagnostics' to see all remaining diagnostics.`)
     // output.show()

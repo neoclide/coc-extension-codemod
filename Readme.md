@@ -1,7 +1,5 @@
 # coc-extension-codemod
 
-**Important** not published yet.
-
 Modify the code of coc.nvim extension to satisfy the API of latest coc.nvim.
 
 **Note** that only some kind of fixes are supported and the fix may cause
@@ -15,9 +13,9 @@ in your (neo)vim:
 
 ## Usage
 
-Install latest coc.nvim typings and typescript as dependence of your extension:
+Install latest coc.nvim typings and typescript as dev dependencies of your extension:
 
-    yarn add coc.nvim@next typescript@latest @types/node@10.12.0 -D
+    yarn add coc.nvim@latest typescript@latest @types/node@10.12.0 -D
 
 Note that coc.nvim 0.0.80 requires typescript >= 4.0, so your local typescript
 module may need upgrade.

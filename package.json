@@ -26,6 +26,8 @@
   "author": "chemzqm@gmail.com",
   "license": "MIT",
   "devDependencies": {
+    "@types/semver": "^7.3.4",
+    "semver": "^7.3.4",
     "typescript": "^4.1.3"
   }
 }
